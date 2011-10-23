@@ -8,10 +8,11 @@
     <h:body>
         <h:form>
             <h:panelGrid columns="1">
-                <h:inputTextarea cols="120" rows="20" />
+                <h:inputTextarea cols="120" rows="20" value="#{sqlExecutor.sql}"/>
                 <h:commandButton action="#{sqlExecutor.executeSql}" value="Run SQL" />
             </h:panelGrid>
         </h:form>
+        <h:outputText value="#{sqlExecutor.result}" />
     </h:body>
 </html>
 
