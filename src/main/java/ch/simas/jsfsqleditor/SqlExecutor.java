@@ -34,7 +34,9 @@ public class SqlExecutor {
                 this.select(con);
             } else if (this.sql.toUpperCase().startsWith("INSERT")
                     || this.sql.toUpperCase().startsWith("UPDATE")
-                    || this.sql.toUpperCase().startsWith("DELETE")) {
+                    || this.sql.toUpperCase().startsWith("DELETE")
+                    || this.sql.toUpperCase().startsWith("CREATE")
+                    || this.sql.toUpperCase().startsWith("DROP")) {
                 this.update(con);
             } else {
                 this.result = "Query not valid: " + this.sql;
