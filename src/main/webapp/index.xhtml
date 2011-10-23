@@ -7,22 +7,14 @@
     </h:head>
     <h:body>
         <h:form>
-            <h:panelGrid columns="1">
-                <h:inputTextarea cols="120" rows="20" value="#{sqlExecutor.sql}"/>
-                <h:commandButton action="#{sqlExecutor.executeSql}" value="Run SQL" />
-            </h:panelGrid>
+            <h:inputTextarea cols="120" rows="10" value="#{editorBean.sql}" />
+            <br />
+            <h:commandButton action="#{editorBean.executeSql}" value="Run SQL" />
+            <br />
+            <h:messages />
+            <hr />
+            <h:outputText value="#{editorBean.table}" escape="false" />
         </h:form>
-        
-        <hr />
-        
-        <h:panelGrid columns="2">
-            <h:outputText value="# of rows affected: " />
-            <h:outputText value="#{sqlExecutor.number}" />
-        </h:panelGrid>
-        
-        <p><h:outputText value="Resultset:" /></p>
-        
-        <p><h:outputText value="#{sqlExecutor.resultset}" /></p>
     </h:body>
 </html>
 
