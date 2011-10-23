@@ -12,7 +12,17 @@
                 <h:commandButton action="#{sqlExecutor.executeSql}" value="Run SQL" />
             </h:panelGrid>
         </h:form>
-        <h:outputText value="#{sqlExecutor.result}" />
+        
+        <hr />
+        
+        <h:panelGrid columns="2">
+            <h:outputText value="# of rows affected: " />
+            <h:outputText value="#{sqlExecutor.number}" />
+        </h:panelGrid>
+        
+        <p><h:outputText value="Resultset:" /></p>
+        
+        <p><h:outputText value="#{sqlExecutor.resultset}" /></p>
     </h:body>
 </html>
 

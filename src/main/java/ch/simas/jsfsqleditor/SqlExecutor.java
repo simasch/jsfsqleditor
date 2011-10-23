@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.sql.DataSource;
 
@@ -23,7 +25,8 @@ public class SqlExecutor {
     @Resource(name = "java:jboss/datasources/MysqlDS")
     private DataSource dataSource;
     private String sql;
-    private String result;
+    private int number;
+    private List<List<String>> resultset;
 
     public void executeSql() {
         Connection con = null;
@@ -39,17 +42,18 @@ public class SqlExecutor {
                     || this.sql.toUpperCase().startsWith("DROP")) {
                 this.update(con);
             } else {
-                this.result = "Query not valid: " + this.sql;
+                String error = "Query not valid: " + this.sql;
+                FacesContext.getCurrentInstance().addMessage("", new FacesMessage(error));
             }
         } catch (SQLException ex) {
-            this.result = ex.toString();
+            FacesContext.getCurrentInstance().addMessage("", new FacesMessage(ex.toString()));
         } finally {
             try {
                 if (con != null && !con.isClosed()) {
                     con.close();
                 }
             } catch (SQLException ex) {
-                this.result = ex.toString();
+                FacesContext.getCurrentInstance().addMessage("", new FacesMessage(ex.toString()));
             }
         }
     }
@@ -57,12 +61,12 @@ public class SqlExecutor {
     private void select(Connection con) throws SQLException {
         PreparedStatement ps = con.prepareStatement(this.sql);
         ResultSet rs = ps.executeQuery();
-        this.result = this.results2Array(rs).toString();
+        this.resultset = this.results2Array(rs);
     }
 
     private void update(Connection con) throws SQLException {
         PreparedStatement ps = con.prepareStatement(this.sql);
-        this.result = new Integer(ps.executeUpdate()).toString();
+        this.number = ps.executeUpdate();
     }
 
     private List<List<String>> results2Array(ResultSet rs)
@@ -91,11 +95,19 @@ public class SqlExecutor {
         this.sql = sql;
     }
 
-    public String getResult() {
-        return result;
+    public int getNumber() {
+        return number;
     }
 
-    public void setResult(String result) {
-        this.result = result;
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public List<List<String>> getResultset() {
+        return resultset;
+    }
+
+    public void setResultset(List<List<String>> resultset) {
+        this.resultset = resultset;
     }
 }
